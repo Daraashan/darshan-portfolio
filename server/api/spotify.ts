@@ -3,6 +3,9 @@ export default defineEventHandler(async () => {
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN!
   if (!refreshToken) return null
+  if (!clientId || !clientSecret) return { debug: 'missing_creds', hasId: !!clientId, hasSecret: !!clientSecret }
+  // log first/last 4 chars to verify without exposing full values
+  return { debug: 'creds_check', idStart: clientId.slice(0,4), idEnd: clientId.slice(-4), secretStart: clientSecret.slice(0,4), secretEnd: clientSecret.slice(-4) }
 
   const basic = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   let accessToken: string
