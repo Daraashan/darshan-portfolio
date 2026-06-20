@@ -20,6 +20,9 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Darshan — exploring & cooking' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ],
+      link: [
+        { rel: 'icon', type: 'image/jpeg', href: '/favicon.jpeg' },
+      ],
     },
   },
 })

@@ -15,6 +15,7 @@
 
     <!-- HERO -->
     <section class="hero">
+      <img src="/avatar.jpeg" class="hero-avatar" alt="Darshan" />
       <h1 class="hero-name">Darshan</h1>
       <p class="hero-line">exploring &amp; cooking</p>
       <p class="hero-bio">love tokenmaxxing</p>
@@ -225,6 +226,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:40px 0
 .theme-toggle{background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);padding:0;line-height:1;transition:color .15s}
 .theme-toggle:hover{color:var(--text)}
 .hero{padding:100px 0 80px}
+.hero-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;margin-bottom:20px;display:block}
 .hero-name{font-family:var(--font-serif);font-size:clamp(48px,10vw,80px);font-weight:400;line-height:1;letter-spacing:-.02em;margin-bottom:12px}
 .hero-line{font-size:18px;color:var(--muted);margin-bottom:28px}
 .hero-bio{font-size:15px;color:var(--muted);line-height:1.7;max-width:400px;margin-bottom:28px}
