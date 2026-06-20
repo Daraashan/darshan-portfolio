@@ -2,12 +2,9 @@ export default defineEventHandler(async () => {
   const clientId = process.env.SPOTIFY_CLIENT_ID!
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN!
-  if (!refreshToken) return null
-  if (!clientId || !clientSecret) return { debug: 'missing_creds', hasId: !!clientId, hasSecret: !!clientSecret }
-  // log first/last 4 chars to verify without exposing full values
-  return { debug: 'creds_check', idStart: clientId.slice(0,4), idEnd: clientId.slice(-4), secretStart: clientSecret.slice(0,4), secretEnd: clientSecret.slice(-4) }
+  if (!clientId || !clientSecret || !refreshToken) return null
 
-  const basic = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+  const basic = btoa(`${clientId}:${clientSecret}`)
   let accessToken: string
   try {
     const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
@@ -16,10 +13,10 @@ export default defineEventHandler(async () => {
       body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }).toString(),
     })
     const tokenData = await tokenRes.json() as any
-    if (!tokenData.access_token) return { debug: 'no_access_token', error: tokenData.error, desc: tokenData.error_description }
+    if (!tokenData.access_token) return null
     accessToken = tokenData.access_token
-  } catch (e: any) {
-    return { debug: 'token_fetch_failed', error: e?.message }
+  } catch {
+    return null
   }
 
   const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
