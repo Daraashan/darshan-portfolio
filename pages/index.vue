@@ -85,7 +85,7 @@
     <section id="about" class="section" ref="aboutRef" :class="{ visible: aboutVisible }">
       <h2 class="section-heading">About</h2>
       <div class="about-body">
-        <p>Somewhere between the launches. I work in growth and go-to-market — mostly lead-gen and outbound, building the systems that bring deals in and then quietly run themselves.</p>
+        <p>Somewhere between the launches. I work in growth and go-to-market, mostly lead-gen and outbound, building the systems that bring deals in and then quietly run themselves.</p>
       </div>
     </section>
 
@@ -229,7 +229,7 @@ const photos = [
 const recs = [
   { type: 'Film', title: 'Good Will Hunting', meta: 'Gus Van Sant · 1997', quotes: [
     "It's not your fault.",
-    "You're not perfect, sport. And let me save you the suspense — this girl you met, she isn't perfect either.",
+    "You're not perfect, sport. And let me save you the suspense: this girl you met, she isn't perfect either.",
     "Some people can't believe in themselves until someone else believes in them first.",
     "Do you like apples? Well I got her number. How do you like them apples?",
   ]},
