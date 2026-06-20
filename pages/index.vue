@@ -17,7 +17,7 @@
     <section class="hero">
       <h1 class="hero-name">Darshan</h1>
       <p class="hero-line">exploring &amp; cooking</p>
-      <p class="hero-bio">love toxenmaxxing</p>
+      <p class="hero-bio">love tokenmaxxing</p>
       <a href="/now" class="now-pill">
         <span class="now-dot" />
         <span>what I'm doing now</span>
