@@ -12,7 +12,10 @@
       <div v-for="block in blocks" :key="block.label" class="now-block">
         <span class="now-label">{{ block.label }}</span>
         <ul class="now-list">
-          <li v-for="item in block.items" :key="item">{{ item }}</li>
+          <li v-for="item in block.items" :key="item.text || item">
+            <a v-if="item.url" :href="item.url" target="_blank" class="now-link">{{ item.text }}</a>
+            <template v-else>{{ item }}</template>
+          </li>
         </ul>
       </div>
     </div>
@@ -25,7 +28,7 @@
 const blocks = [
   { label: 'Building',       items: ['tokenmaxxing'] },
   { label: 'Reading',        items: ['nothing new'] },
-  { label: 'Thinking about', items: ['how to retard max'] },
+  { label: 'Thinking about', items: [{ text: 'how to retard max', url: 'https://youtu.be/1JK90Jl2R8k?si=UcWQ08oSi9C0dvis' }] },
 ]
 </script>
 <style scoped>
@@ -44,5 +47,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:40px 0
 .now-list li{font-size:15px;color:var(--text);line-height:1.5}
 footer{padding-top:64px;font-size:13px;color:var(--muted)}
 .footer-link{text-decoration:underline;text-underline-offset:3px}
+.now-link{color:var(--text);text-decoration:underline;text-underline-offset:3px;transition:opacity .15s}
+.now-link:hover{opacity:.6}
 @media(max-width:480px){.now-block{grid-template-columns:1fr;gap:10px}}
 </style>
