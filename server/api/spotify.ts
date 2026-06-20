@@ -7,7 +7,7 @@ export default defineEventHandler(async () => {
   const basic = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   let accessToken: string
   try {
-    const tokenRes = await $fetch<{ access_token?: string; error?: string }>(
+    const tokenRes = await $fetch<{ access_token?: string; error?: string; error_description?: string }>(
       'https://accounts.spotify.com/api/token',
       {
         method: 'POST',
@@ -15,10 +15,10 @@ export default defineEventHandler(async () => {
         body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }).toString(),
       }
     )
-    if (!tokenRes.access_token) return null
+    if (!tokenRes.access_token) return { debug: 'no_access_token', error: tokenRes.error, desc: tokenRes.error_description }
     accessToken = tokenRes.access_token
-  } catch {
-    return null
+  } catch (e: any) {
+    return { debug: 'token_fetch_failed', error: e?.message }
   }
 
   const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
