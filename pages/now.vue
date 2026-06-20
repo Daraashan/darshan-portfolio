@@ -23,7 +23,7 @@
 </template>
 <script setup lang="ts">
 const blocks = [
-  { label: 'Building',       items: ['toxenmaxxing'] },
+  { label: 'Building',       items: ['tokenmaxxing'] },
   { label: 'Reading',        items: ['nothing new'] },
   { label: 'Thinking about', items: ['how to retard max'] },
 ]
