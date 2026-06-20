@@ -1,0 +1,17 @@
+{
+  "name": "darshan-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "nuxt": "^3.13.0",
+    "@nuxtjs/google-fonts": "^3.2.0"
+  },
+  "dependencies": {
+    "@vueuse/core": "^14.3.0",
+    "@vueuse/nuxt": "^14.3.0"
+  }
+}
