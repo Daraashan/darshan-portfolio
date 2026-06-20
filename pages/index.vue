@@ -100,18 +100,18 @@
       <h2 class="section-heading">Recommendations</h2>
       <p class="section-sub">Things I think everyone should experience.</p>
       <div class="recs-list">
-        <div v-for="rec in recs" :key="rec.title" class="rec-item" @click="toggleRec(rec.title)" :class="{ flipped: openRec === rec.title }">
+        <div v-for="rec in recs" :key="rec.title" class="rec-item" @click="toggleRec(rec.title)">
           <span class="rec-type">{{ rec.type }}</span>
           <div class="rec-body">
             <Transition name="rec-swap" mode="out-in">
-              <span v-if="openRec === rec.title" class="rec-quote" :key="'q'">{{ rec.quote }}</span>
-              <div v-else class="rec-titles" :key="'t'">
+              <span v-if="openRec === rec.title" class="rec-quote" :key="currentQuote(rec)">{{ currentQuote(rec) }}</span>
+              <div v-else class="rec-titles" :key="'t-' + rec.title">
                 <span class="rec-title">{{ rec.title }}</span>
                 <span class="rec-meta">{{ rec.meta }}</span>
               </div>
             </Transition>
           </div>
-          <span class="rec-hint">{{ openRec === rec.title ? '✕' : '↗' }}</span>
+          <span class="rec-hint">{{ openRec === rec.title ? 'tap for more' : '↗' }}</span>
         </div>
       </div>
     </section>
@@ -227,12 +227,38 @@ const photos = [
 ]
 
 const recs = [
-  { type: 'Film', title: 'Good Will Hunting', meta: 'Gus Van Sant · 1997', quote: "It's not your fault." },
-  { type: 'Song', title: "I Forgot More Than You'll Ever Know", meta: 'Bob Dylan', quote: "I forgot more than you'll ever know about her." },
-  { type: 'Book', title: 'Steve Jobs', meta: 'Walter Isaacson', quote: "Stay hungry, stay foolish." },
+  { type: 'Film', title: 'Good Will Hunting', meta: 'Gus Van Sant · 1997', quotes: [
+    "It's not your fault.",
+    "You're not perfect, sport. And let me save you the suspense — this girl you met, she isn't perfect either.",
+    "Some people can't believe in themselves until someone else believes in them first.",
+    "Do you like apples? Well I got her number. How do you like them apples?",
+  ]},
+  { type: 'Song', title: "I Forgot More Than You'll Ever Know", meta: 'Bob Dylan', quotes: [
+    "I forgot more than you'll ever know about her.",
+    "You think you know her but you don't know a thing.",
+    "The memories I've lost outweigh all you've found.",
+  ]},
+  { type: 'Book', title: 'Steve Jobs', meta: 'Walter Isaacson', quotes: [
+    "Stay hungry, stay foolish.",
+    "Creativity is just connecting things.",
+    "People who are crazy enough to think they can change the world are the ones who do.",
+    "Real artists ship.",
+    "The journey is the reward.",
+  ]},
 ]
 const openRec = ref<string | null>(null)
-function toggleRec(title: string) { openRec.value = openRec.value === title ? null : title }
+const recIndexes = ref<Record<string, number>>({})
+function toggleRec(title: string) {
+  if (openRec.value === title) {
+    const rec = recs.find(r => r.title === title)!
+    recIndexes.value[title] = ((recIndexes.value[title] ?? 0) + 1) % rec.quotes.length
+  } else {
+    openRec.value = title
+  }
+}
+function currentQuote(rec: typeof recs[0]) {
+  return rec.quotes[recIndexes.value[rec.title] ?? 0]
+}
 
 const lightboxIndex = ref<number | null>(null)
 onMounted(() => {
