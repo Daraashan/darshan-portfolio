@@ -100,12 +100,18 @@
       <h2 class="section-heading">Recommendations</h2>
       <p class="section-sub">Things I think everyone should experience.</p>
       <div class="recs-list">
-        <div v-for="rec in recs" :key="rec.title" class="rec-item">
+        <div v-for="rec in recs" :key="rec.title" class="rec-item" @click="toggleRec(rec.title)" :class="{ flipped: openRec === rec.title }">
           <span class="rec-type">{{ rec.type }}</span>
           <div class="rec-body">
-            <span class="rec-title">{{ rec.title }}</span>
-            <span class="rec-meta">{{ rec.meta }}</span>
+            <Transition name="rec-swap" mode="out-in">
+              <span v-if="openRec === rec.title" class="rec-quote" :key="'q'">{{ rec.quote }}</span>
+              <div v-else class="rec-titles" :key="'t'">
+                <span class="rec-title">{{ rec.title }}</span>
+                <span class="rec-meta">{{ rec.meta }}</span>
+              </div>
+            </Transition>
           </div>
+          <span class="rec-hint">{{ openRec === rec.title ? '✕' : '↗' }}</span>
         </div>
       </div>
     </section>
@@ -221,10 +227,12 @@ const photos = [
 ]
 
 const recs = [
-  { type: 'Film', title: 'Good Will Hunting', meta: 'Gus Van Sant · 1997' },
-  { type: 'Song', title: "I Forgot More Than You'll Ever Know", meta: 'Bob Dylan' },
-  { type: 'Book', title: 'Steve Jobs', meta: 'Walter Isaacson' },
+  { type: 'Film', title: 'Good Will Hunting', meta: 'Gus Van Sant · 1997', quote: "It's not your fault." },
+  { type: 'Song', title: "I Forgot More Than You'll Ever Know", meta: 'Bob Dylan', quote: "I forgot more than you'll ever know about her." },
+  { type: 'Book', title: 'Steve Jobs', meta: 'Walter Isaacson', quote: "Stay hungry, stay foolish." },
 ]
+const openRec = ref<string | null>(null)
+function toggleRec(title: string) { openRec.value = openRec.value === title ? null : title }
 
 const lightboxIndex = ref<number | null>(null)
 onMounted(() => {
@@ -294,11 +302,18 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:40px 0
 .about-body p{font-size:15px;color:var(--muted);line-height:1.75}
 .empty-note{font-size:14px;color:var(--muted)}
 .recs-list{display:flex;flex-direction:column}
-.rec-item{display:flex;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid var(--border)}
+.rec-item{display:flex;align-items:center;gap:24px;padding:16px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s}
+.rec-item:hover{opacity:.7}
 .rec-type{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;width:40px;flex-shrink:0}
-.rec-body{display:flex;flex-direction:column;gap:3px}
+.rec-body{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.rec-titles{display:flex;flex-direction:column;gap:3px}
 .rec-title{font-size:15px;color:var(--text)}
 .rec-meta{font-size:13px;color:var(--muted)}
+.rec-quote{font-size:15px;color:var(--text);font-family:var(--font-serif);font-style:italic;line-height:1.5}
+.rec-hint{font-size:12px;color:var(--muted);flex-shrink:0}
+.rec-swap-enter-active,.rec-swap-leave-active{transition:opacity .2s,transform .2s}
+.rec-swap-enter-from{opacity:0;transform:translateY(4px)}
+.rec-swap-leave-to{opacity:0;transform:translateY(-4px)}
 .contact-list{display:flex;flex-direction:column}
 .contact-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);transition:color .15s;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;font-family:var(--font-sans);font-size:inherit;color:inherit;text-align:left}
 .contact-item:hover{color:var(--text)}
