@@ -21,7 +21,7 @@
       <p class="hero-bio">love tokenmaxxing</p>
       <a href="/now" class="now-pill">
         <span class="now-dot" />
-        <span>what I'm doing now</span>
+        <span>what I'm doing now →</span>
       </a>
       <div class="hero-live">
         <SpotifyWidget />
