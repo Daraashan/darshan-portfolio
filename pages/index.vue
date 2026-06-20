@@ -95,6 +95,21 @@
       <p class="empty-note">Nothing published yet.</p>
     </section>
 
+    <!-- RECOMMENDATIONS -->
+    <section class="section" ref="recsRef" :class="{ visible: recsVisible }">
+      <h2 class="section-heading">Recommendations</h2>
+      <p class="section-sub">Things I think everyone should experience.</p>
+      <div class="recs-list">
+        <div v-for="rec in recs" :key="rec.title" class="rec-item">
+          <span class="rec-type">{{ rec.type }}</span>
+          <div class="rec-body">
+            <span class="rec-title">{{ rec.title }}</span>
+            <span class="rec-meta">{{ rec.meta }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact" class="section" ref="contactRef" :class="{ visible: contactVisible }">
       <h2 class="section-heading">Contact</h2>
@@ -167,6 +182,7 @@ const { el: photosRef, visible: photosVisible } = useFade()
 const { el: filmsRef, visible: filmsVisible } = useFade()
 const { el: aboutRef, visible: aboutVisible } = useFade()
 const { el: writingRef, visible: writingVisible } = useFade()
+const { el: recsRef, visible: recsVisible } = useFade()
 const { el: contactRef, visible: contactVisible } = useFade()
 
 const DEFAULT_PROJECTS = [
@@ -202,6 +218,12 @@ const photos = [
   { src: '/photos/3.jpeg', alt: '', size: '',       tilt: -0.8 },
   { src: '/photos/4.jpeg', alt: '', size: 'wide',   tilt:  0.6 },
   { src: '/photos/5.jpeg', alt: '', size: '',       tilt: -1.8 },
+]
+
+const recs = [
+  { type: 'Film', title: 'Good Will Hunting', meta: 'Gus Van Sant · 1997' },
+  { type: 'Song', title: "I Forgot More Than You'll Ever Know", meta: 'Bob Dylan' },
+  { type: 'Book', title: 'Steve Jobs', meta: 'Walter Isaacson' },
 ]
 
 const lightboxIndex = ref<number | null>(null)
@@ -271,6 +293,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:40px 0
 .about-body{display:flex;flex-direction:column;gap:16px}
 .about-body p{font-size:15px;color:var(--muted);line-height:1.75}
 .empty-note{font-size:14px;color:var(--muted)}
+.recs-list{display:flex;flex-direction:column}
+.rec-item{display:flex;align-items:baseline;gap:24px;padding:16px 0;border-bottom:1px solid var(--border)}
+.rec-type{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;width:40px;flex-shrink:0}
+.rec-body{display:flex;flex-direction:column;gap:3px}
+.rec-title{font-size:15px;color:var(--text)}
+.rec-meta{font-size:13px;color:var(--muted)}
 .contact-list{display:flex;flex-direction:column}
 .contact-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);transition:color .15s;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;font-family:var(--font-sans);font-size:inherit;color:inherit;text-align:left}
 .contact-item:hover{color:var(--text)}
