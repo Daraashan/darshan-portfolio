@@ -12,9 +12,9 @@
       <div v-for="block in blocks" :key="block.label" class="now-block">
         <span class="now-label">{{ block.label }}</span>
         <ul class="now-list">
-          <li v-for="item in block.items" :key="item.text || item">
+          <li v-for="item in block.items" :key="item.text">
             <a v-if="item.url" :href="item.url" target="_blank" class="now-link">{{ item.text }}</a>
-            <template v-else>{{ item }}</template>
+            <template v-else>{{ item.text }}</template>
           </li>
         </ul>
       </div>
@@ -26,8 +26,8 @@
 </template>
 <script setup lang="ts">
 const blocks = [
-  { label: 'Building',       items: ['tokenmaxxing'] },
-  { label: 'Reading',        items: ['nothing new'] },
+  { label: 'Building',       items: [{ text: 'tokenmaxxing', url: '' }] },
+  { label: 'Reading',        items: [{ text: 'nothing new', url: '' }] },
   { label: 'Thinking about', items: [{ text: 'how to retard max', url: 'https://youtu.be/1JK90Jl2R8k?si=UcWQ08oSi9C0dvis' }] },
 ]
 </script>
