@@ -7,16 +7,14 @@ export default defineEventHandler(async () => {
   const basic = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   let accessToken: string
   try {
-    const tokenRes = await $fetch<{ access_token?: string; error?: string; error_description?: string }>(
-      'https://accounts.spotify.com/api/token',
-      {
-        method: 'POST',
-        headers: { Authorization: `Basic ${basic}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }).toString(),
-      }
-    )
-    if (!tokenRes.access_token) return { debug: 'no_access_token', error: tokenRes.error, desc: tokenRes.error_description }
-    accessToken = tokenRes.access_token
+    const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { Authorization: `Basic ${basic}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }).toString(),
+    })
+    const tokenData = await tokenRes.json() as any
+    if (!tokenData.access_token) return { debug: 'no_access_token', error: tokenData.error, desc: tokenData.error_description }
+    accessToken = tokenData.access_token
   } catch (e: any) {
     return { debug: 'token_fetch_failed', error: e?.message }
   }
